@@ -1,6 +1,5 @@
 package de.medical.app.controller;
 
-
 import de.medical.app.model.Appointment;
 import de.medical.app.model.User;
 import de.medical.app.repository.AppointmentRepository;

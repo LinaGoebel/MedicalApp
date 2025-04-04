@@ -18,7 +18,8 @@ public class UserService {
 
     private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, PatientRepository patientRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PatientRepository patientRepository,
+                       BCryptPasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.patientRepository = patientRepository;
         this.passwordEncoder = passwordEncoder;
@@ -40,9 +41,5 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
-    }
-
-    public void deleteUser(User user) {
-        userRepository.delete(user);
     }
 }
