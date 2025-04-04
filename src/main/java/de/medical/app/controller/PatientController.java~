@@ -38,27 +38,25 @@ public class PatientController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll(){
+    public ResponseEntity<?> getAll() {
         User currentUser = getCurrentUser();
-        if("ROLE_ADMIN".equals(currentUser.getRole())){
+        if ("ROLE_ADMIN".equals(currentUser.getRole())) {
             return ResponseEntity.ok(patientService.findAll());
-        }
-        else {
+        } else {
             return ResponseEntity.ok(currentUser.getPatient());
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(Long id){
+    public ResponseEntity<?> getById(Long id) {
         User currentUser = getCurrentUser();
         Patient patient = patientService.findById(id);
-        if(patient == null){
+        if (patient == null) {
             return ResponseEntity.notFound().build();
         }
-        if("ROLE_ADMIN".equals(currentUser.getRole())){
+        if ("ROLE_ADMIN".equals(currentUser.getRole())) {
             return ResponseEntity.ok(patient);
-        }
-        else {
+        } else {
             return ResponseEntity.ok(patient.equals(currentUser.getPatient()));
         }
     }
@@ -80,12 +78,12 @@ public class PatientController {
     }
 
     @DeleteMapping
-    public ResponseEntity<?> deleteByUserId(Long id){
+    public ResponseEntity<?> deleteByUserId(Long id) {
         User currentUser = getCurrentUser();
 
-        if("ROLE_ADMIN".equals(currentUser.getRole())){
+        if ("ROLE_ADMIN".equals(currentUser.getRole())) {
             Optional<User> user = userRepository.findById(id);
-            if(!user.isEmpty()){
+            if (!user.isEmpty()) {
                 userService.deleteUser(user.get());
 
                 List<Appointment> appointments = appointmentRepository.findAll().stream()
@@ -97,13 +95,11 @@ public class PatientController {
 
 
                 return ResponseEntity.ok().build();
-            }
-            else {
+            } else {
                 return ResponseEntity.notFound().build();
             }
 
-        }
-        else {
+        } else {
             return ResponseEntity.status(403).body("You are not allowed to delete this patient");
         }
     }
@@ -111,7 +107,7 @@ public class PatientController {
     private User getCurrentUser() {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
-        if(principal instanceof UserDetails userDetails) {
+        if (principal instanceof UserDetails userDetails) {
             username = userDetails.getUsername();
         } else {
             username = principal.toString();
@@ -120,3 +116,4 @@ public class PatientController {
     }
 
 }
+
